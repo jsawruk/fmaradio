@@ -21,15 +21,19 @@
 	<div class="container-fluid">
 		<div class="sidebar">
 			<div class="well">
-			
+			<input type="text" name="artist" id="artist" placeholder="Artist Name" />
 			<div id="accordion">
 				<h3><a href="#">Styles</a></h3>
 				<div id="style-list">
+					<div class="row"><a href="#" id="clear-styles" class="clear">clear</a></div>
 				</div>
 				<h3><a href="#">Moods</a></h3>
 				<div id="mood-list">
+					<div class="row"><a href="#" id="clear-moods" class="clear">clear</a></div>
 				</div>
 			</div>
+			
+			<div id="submit">Submit</div>
 			
 			</div><!-- ./well -->
 		</div><!-- /.sidebar -->

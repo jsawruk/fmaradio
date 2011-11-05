@@ -5,6 +5,22 @@ fma.apiKey = "RVT1BNUNP3DUTKTLS";
 fma.load = function() {
 	fma.getPlaylist();
 	fma.makeAccordion();
+	
+	$("#submit").button();
+	
+	$("#clear-styles").click(function(event) {
+		event.preventDefault();
+		$("#style-list input[type=checkbox]").each(function(index, item){
+			$(item).removeAttr('checked');
+		});
+	});
+	
+	$("#clear-moods").click(function(event) {
+		event.preventDefault();
+		$("#mood-list input[type=checkbox]").each(function(index, item){
+			$(item).removeAttr('checked');
+		});
+	});
 };
 
 fma.getPlaylist = function() {
@@ -44,7 +60,7 @@ fma.makeAccordion = function() {
 		success: function(data) {
 			
 			$.each(data.response.terms, function(index, item){
-				$("#style-list").append(item.name + ' <input type="checkbox" /><br />')
+				$("#style-list").append('<div class="row"><label>' + item.name + '</label><input type="checkbox" /></div>');
 			});
 			
 			$("#accordion").accordion('resize');
@@ -60,7 +76,7 @@ fma.makeAccordion = function() {
 		success: function(data) {
 			
 			$.each(data.response.terms, function(index, item){
-				$("#mood-list").append(item.name + ' <input type="checkbox" /><br />')
+				$("#mood-list").append('<div class="row"><label>' + item.name + '</label><input type="checkbox" /></div>');
 			});
 			
 			$("#accordion").accordion('resize');

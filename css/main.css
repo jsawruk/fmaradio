@@ -5,3 +5,30 @@ body {
 #accordion div {
 	max-height:100px;
 }
+
+#artist {
+	width:170px;
+}
+
+#submit {
+	margin-top:20px;
+}
+
+a.clear {
+	font-size:80%;
+	color:#00c;
+}
+
+.row  {
+	overflow:hidden;
+}
+
+.row label {
+	float:left;
+	width:100px;
+	text-align:left;
+}
+
+.row input {
+	float:right;
+}
