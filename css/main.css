@@ -1,3 +1,7 @@
 body {
 	padding-top: 60px;
 }
+
+#accordion div {
+	max-height:100px;
+}

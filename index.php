@@ -3,6 +3,7 @@
 	<head>
 		<title>FMA Radio</title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.16.custom.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script src="js/head.load.min.js"></script> <!-- Load head.load.js in head, load others using this in body -->
 		
@@ -20,7 +21,16 @@
 	<div class="container-fluid">
 		<div class="sidebar">
 			<div class="well">
-			SIDEBAR
+			
+			<div id="accordion">
+				<h3><a href="#">Styles</a></h3>
+				<div id="style-list">
+				</div>
+				<h3><a href="#">Moods</a></h3>
+				<div id="mood-list">
+				</div>
+			</div>
+			
 			</div><!-- ./well -->
 		</div><!-- /.sidebar -->
 
@@ -31,12 +41,9 @@
 		</div><!-- /.content -->
 	</div><!-- /.container-fluid -->
 	
-	<script type="text/javascript" src="js/jquery-1.7.min.js"></script>
-	<script type="text/javascript" src="js/fma.js"></script>
-	
 	<script>
 
-	head.js("js/jquery-1.7.min.js", "js/fma.js", function() {
+	head.js("js/jquery-1.7.min.js", "js/jquery-ui-1.8.16.custom.min.js", "js/fma.js", function() {
 
 		$(document).ready(function() {
 			fma.load();
