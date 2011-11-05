@@ -1,10 +1,14 @@
 // FMA Radio main Javascript file
 var fma = {};
 fma.apiKey = "RVT1BNUNP3DUTKTLS";
+fma.fmaKey = "FI74IUKFE2K60BMV";
 
 fma.load = function() {
-	fma.getPlaylist();
 	fma.makeAccordion();
+	fma.initSoundManager();
+	
+	fma.getTrack("14780");
+	
 	
 	$("#submit").button();
 	
@@ -21,32 +25,47 @@ fma.load = function() {
 			$(item).removeAttr('checked');
 		});
 	});
+	
+	$("#submit").click(function(event){
+		fma.getPlaylist();
+	});
 };
 
-fma.getPlaylist = function() {
+fma.getTrack = function(id) {
 	$.ajax({
-		url: "http://developer.echonest.com/api/v4/playlist/dynamic",
+		url: "http://freemusicarchive.org/api/get/tracks.jsonp",
+		data: {
+			api_key: fma.fmaKey,
+			track_id: id
+		},
+		dataType: 'jsonp',
+		success: function(data) {
+			console.log(data);
+		}
+	});
+}
+
+fma.getPlaylist = function() {
+
+	var artist = $("#artist").val();
+	
+	$.ajax({
+		url: "http://developer.echonest.com/api/v4/playlist/static?bucket=tracks",
 		data:{
 			api_key: fma.apiKey,
-//			artist:	'Yacht',
+			artist:	artist,
 			mood: 'happy',
 			style: 'rock',
-			type: 'artist-description',
-			bucket: 'id:fma'
-/*			dataType: 'jsonp',
-			jsonp: 'callback',
-            jsonpCallback: 'fma.jsonpCallback', */
+			type: 'artist-radio',
+			bucket: 'id:fma',
+			limit: 'true',
+			results: 50
 		},
 		success: function(data) {
 			console.log(data);
 		}
 	});
 };
-
-fma.jsonpCallback = function(data){
-    //$('#jsonpResult').text(data.message);
-	console.log(data.message);
-}
 
 fma.makeAccordion = function() {
 	$("#accordion").accordion();
@@ -82,5 +101,22 @@ fma.makeAccordion = function() {
 			$("#accordion").accordion('resize');
 		}
 	});
-
 }
+
+fma.initSoundManager = function() {
+	window.soundManager = new SoundManager(); // Flash expects window.soundManager.
+	
+	soundManager.url = '/swf';
+	soundManager.waitForWindowLoad = false;
+	
+	soundManager.flashVersion = 9;
+	soundManager.useFlashBlock = false;
+	soundManager.useMovieStar = true;	// MP4 support
+	soundManager.useHTML5Audio = true;	// Use HTML5 if available and codec supported
+
+	soundManager.flash9Options = { isMovieStar: true };
+	
+	soundManager.debugMode = false;
+	soundManager.debugFlash = false;
+
+};

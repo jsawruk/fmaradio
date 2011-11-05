@@ -47,7 +47,10 @@
 	
 	<script>
 
-	head.js("js/jquery-1.7.min.js", "js/jquery-ui-1.8.16.custom.min.js", "js/fma.js", function() {
+	window.SM2_DEFER = true; // Lazy load SoundManager2
+
+	head.js("js/jquery-1.7.min.js", "js/jquery-ui-1.8.16.custom.min.js", 
+			"js/soundmanager2.js", "js/fma.js", function() {
 
 		$(document).ready(function() {
 			fma.load();
