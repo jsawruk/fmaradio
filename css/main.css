@@ -19,6 +19,10 @@ ul, li {
 	width:100px;
 }
 
+#license-info {
+	margin-top:21px;
+}
+
 a.clear {
 	font-size:80%;
 	color:#00c;
