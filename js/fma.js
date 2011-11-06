@@ -5,10 +5,13 @@ fma.fmaKey = "FI74IUKFE2K60BMV";
 
 fma.load = function() {
 	fma.makeAccordion();
-	fma.initSoundManager();
+	//fma.initSoundManager();	
 	
-	//fma.getTrack("14780");
-	
+	$("#jquery_jplayer_1").jPlayer({
+		  ready: function () {
+		  },
+		  swfPath: "/js"
+	});
 	
 	$("#submit").button();
 	
@@ -40,6 +43,13 @@ fma.load = function() {
 
 		fma.getTrack(parsedId, function(data){
 			console.log(data);
+			var playUrl = data.dataset[0].track_url + "/download";
+			console.log(playUrl);
+			//fma.play(playUrl);
+			$("#jquery_jplayer_1").jPlayer("setMedia", {mp3: playUrl});
+			$("#jquery_jplayer_1").jPlayer("play");
+			$(".jp-title .title").text(data.dataset[0].artist_name + " - " + data.dataset[0].track_title);
+			$(".jp-duration").text(data.dataset[0].track_duration);
 		});
 		
 	});
@@ -61,6 +71,9 @@ fma.getTrack = function(id, callback) {
 
 fma.getPlaylist = function() {
 
+	var styleString = fma.getStyleSelected();
+	var moodString = fma.getMoodSelected();
+	
 	var artist = $("#artist").val();
 	
 	$.ajax({
@@ -68,8 +81,8 @@ fma.getPlaylist = function() {
 		data:{
 			api_key: fma.apiKey,
 			artist:	artist,
-			mood: 'happy',
-			style: 'rock',
+			mood: moodString,
+			style: styleString,
 			type: 'artist-radio',
 			bucket: 'id:fma',
 			limit: 'true',
@@ -79,7 +92,7 @@ fma.getPlaylist = function() {
 			//console.log(data);
 			$("#playlist").empty();
 			$.each(data.response.songs, function(index, item){
-				console.log(item);
+				//console.log(item);
 				var listItem = $('<li class="item"></li>');
 				listItem.append('<div class="left">' + item.artist_name + '/' + item.title + '</div>');
 				listItem.append('<div class="meta">' + item.tracks[0].foreign_id + '</div>');
@@ -115,7 +128,7 @@ fma.makeAccordion = function() {
 			type: 'mood'
 		},
 		success: function(data) {
-			
+			console.log(data);
 			$.each(data.response.terms, function(index, item){
 				$("#mood-list").append('<div class="row"><label>' + item.name + '</label><input type="checkbox" /></div>');
 			});
@@ -140,5 +153,81 @@ fma.initSoundManager = function() {
 	
 	soundManager.debugMode = false;
 	soundManager.debugFlash = false;
+	
+	soundManager.beginDelayedInit(); // start SM2 init.
+	
+	soundManager.onready(function() {
+	});
 
 };
+
+fma.play = function(url) {
+	//var audioElement = document.getElementById('player');
+	//audioElement.setAttribute('src', url);
+	//audioElement.play();
+	/*
+	// Create SoundManager sound
+	soundManager.destroySound('mySound');
+	
+	soundManager.createSound({
+		 id: 'mySound', // required
+		 url: url, // required,
+		 autoPlay: false,
+		 autoLoad:false,
+		 stream:false,
+
+		 onconnect:function(connected) {
+		 },
+		 
+		 onresume:function() {
+		 },
+		 
+		 onid3: function() {
+		 },
+		 
+		 onplay: function() {
+		 },
+		 
+		 ondataerror: function() {
+		 },
+		 
+		 onload: function(success) {
+		 },
+		 
+		 onbufferchange:function() {
+		 },
+		 
+		 whileloading:function() {
+		 },
+		 
+		 // optional sound parameters here, see Sound Properties for full list
+		 whileplaying: function() {
+		 },
+		 
+		 onfinish: function() {
+		 }
+		}).play();
+		*/
+};
+
+fma.getMoodSelected = function() {
+	var str = "";
+	$("#mood-list input[type=checkbox]:checked").each(function(index, item){
+		str += $(item).siblings("label").text() + ',';
+	});
+
+	str = str.substring(0,str.length-1);
+	return str;
+};
+
+
+fma.getStyleSelected = function() {
+	var str = "";
+	$("#style-list input[type=checkbox]:checked").each(function(index, item){
+		str += $(item).siblings("label").text() + ',';
+	});
+
+	str = str.substring(0,str.length-1);
+
+	return str;
+}

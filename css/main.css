@@ -42,4 +42,9 @@ a.clear {
 	padding:10px;
 	margin:5px;
 	background:#ccc;
+	cursor:pointer;
+}
+
+div.jp-audio {
+	margin:auto;
 }
