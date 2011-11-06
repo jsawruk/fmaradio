@@ -84,3 +84,13 @@ div.jp-audio {
 	margin-top:10px;
 	text-align:center;
 }
+
+.topbar-inner, .topbar .fill {
+	background-image:none;
+	background:#191818;
+}
+
+#echo-nest {
+	float:right;
+	padding-top:3px;
+}

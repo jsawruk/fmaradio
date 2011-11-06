@@ -14,11 +14,13 @@
 			<div class="topbar-inner">
 				<div class="container-fluid">
 					<a class="brand" href="#">FMA Radio</a>
+					<a id="echo-nest" href="http://the.echonest.com"><img src="images/EN_P_on_Black_Horizontal.gif" alt="Powered by the Echo Nest" /></a>
+					
 				</div><!-- /.container-fluid -->
 			</div><!-- /.topbar-inner -->
 		</div><!-- /.topbar -->
 		<div class="container-fluid">
-			<div class="sidebar">
+			<div class="sidebar">			
 				<div class="well">
 					<input type="text" name="artist" id="artist" placeholder="Artist Name" />
 					<div id="accordion">
@@ -144,8 +146,10 @@
 					</div>
 					<div id="search-status"></div>
 					<ul id="playlist"></ul>
+										
 				</div><!-- ./hero-unit -->
-			</div><!-- /.content -->
+			</div><!-- /.content -->			
+			
 		</div><!-- /.container-fluid -->
 		<audio id="player"></audio>
 		<script>
