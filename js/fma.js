@@ -119,55 +119,89 @@ fma.getPlaylist = function() {
 
 	$("#search-status").text("Searching...");
 	
-	var styleString = fma.getStyleSelected();
-	var moodString = fma.getMoodSelected();
+	var styles = fma.getStyleSelected();
+	var moods = fma.getMoodSelected();
 	
 	var licenses = fma.getLicenseSelected();
 	
 	var artist = $("#artist").val();
 	
+	if(artist !== "") {
+		fma.searchByArtist(artist, styles, moods, licenses);
+	}
+	else {
+		fma.searchByTerms(styles, moods, licenses);
+	}
+	
+};
+
+fma.searchByArtist = function(artist, styles, moods, licenses) {
 	$.ajax({
 		url: "http://developer.echonest.com/api/v4/playlist/static?bucket=tracks",
 		data:{
 			api_key: fma.apiKey,
 			artist:	artist,
-			mood: moodString,
-			style: styleString,
+			mood: moods,
+			style: styles,
 			type: 'artist-radio',
 			bucket: 'id:fma',
 			limit: 'true',
 			results: 20
 		},
 		success: function(data) {
-			$("#playlist").empty();
-			$.each(data.response.songs, function(index, item) {
-				var id = item.tracks[0].foreign_id;
-				var index = id.indexOf("track:");
-				var parsedId = id.substr(index + 6);
-				
-				fma.getTrack(parsedId, function(data){
-					
-					var license = data.dataset[0].license_url;
-					var licenseTitle = data.dataset[0].license_title;
-					var licenseIndex = $.inArray(license, licenses);
-					//console.log(license);
-					//console.log(licenseTitle);
-					
-					if(licenseIndex != -1) {
-						// Only add matching licenses
-						var listItem = $('<li class="item"></li>');
-						listItem.append('<div class="left">' + item.artist_name + '/' + item.title + '</div>');
-						listItem.append('<div class="right"><img src="images/' + licenseTitle + '.png"/></div>');
-						listItem.append('<div class="meta">' + item.tracks[0].foreign_id + '</div>');
-						$("#playlist").append(listItem);
-					}
-				}); // end .getTrack callback
-				
-			}); // end $.each song
-			
-			$("#search-status").text("");
+			fma.buildPlaylist(data, licenses);
 		}
 	});
+};
+
+
+fma.searchByTerms = function(styles, moods, licenses) {
+	$.ajax({
+		url: "http://developer.echonest.com/api/v4/playlist/static?bucket=tracks",
+		data:{
+			api_key: fma.apiKey,
+			mood: moods,
+			style: styles,
+			type: 'artist-description',
+			bucket: 'id:fma',
+			limit: 'true',
+			results: 20
+		},
+		success: function(data) {
+			fma.buildPlaylist(data, licenses);
+		}
+	});
+};
+
+fma.buildPlaylist = function(data, licenses) {
+	
+	$("#playlist").empty();
+	$.each(data.response.songs, function(index, item) {
+		var id = item.tracks[0].foreign_id;
+		var index = id.indexOf("track:");
+		var parsedId = id.substr(index + 6);
+		
+		fma.getTrack(parsedId, function(data){
+			
+			var license = data.dataset[0].license_url;
+			var licenseTitle = data.dataset[0].license_title;
+			var licenseIndex = $.inArray(license, licenses);
+			//console.log(license);
+			//console.log(licenseTitle);
+			
+			if(licenseIndex != -1) {
+				// Only add matching licenses
+				var listItem = $('<li class="item"></li>');
+				listItem.append('<div class="left">' + item.artist_name + '/' + item.title + '</div>');
+				listItem.append('<div class="right"><img src="images/' + licenseTitle + '.png"/></div>');
+				listItem.append('<div class="meta">' + item.tracks[0].foreign_id + '</div>');
+				$("#playlist").append(listItem);
+			}
+		}); // end .getTrack callback
+		
+	}); // end $.each song
+	
+	$("#search-status").text("");
 };
 
 fma.makeAccordion = function() {

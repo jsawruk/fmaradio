@@ -120,6 +120,7 @@
 			"js/soundmanager2.js", "js/Jquery.jplayer.min.js", "js/fma.js", function() {
 
 		$(document).ready(function() {
+			 jQuery.ajaxSettings.traditional = true;
 			fma.load();
 		});
 	});
