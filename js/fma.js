@@ -6,6 +6,10 @@ fma.fmaKey = "FI74IUKFE2K60BMV";
 fma.load = function() {
 	fma.makeAccordion();
 	//fma.initSoundManager();	
+
+	fma.licenses = ["http://creativecommons.org/licenses/by/3.0/us/","http://creativecommons.org/licenses/by-sa/3.0/us/",
+	                "http://creativecommons.org/licenses/by-nd/3.0/us/","http://creativecommons.org/licenses/by-nc/3.0/us/",
+	                "http://creativecommons.org/licenses/by-nc-sa/3.0/us/","http://creativecommons.org/licenses/by-nc-sd/3.0/us/",]
 	
 	$("#jquery_jplayer_1").jPlayer({
 		  ready: function () {
@@ -238,4 +242,12 @@ fma.getStyleSelected = function() {
 	str = str.substring(0,str.length-1);
 
 	return str;
+}
+
+fma.getLicenseSelected = function() {
+	var name=[];
+	$("#license-list input[type=checkbox]:checked").each(function(index, item){
+		name.push(fma.license[$(item).index()]);
+	});
+	return name;
 }

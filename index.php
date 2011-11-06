@@ -32,6 +32,10 @@
 				<div id="mood-list">
 					<div class="row"><a href="#" id="clear-moods" class="clear">clear</a></div>
 				</div>
+				<h3><a href="#">Licenses</a></h3>
+				<div id="license-list">
+					<div class="row"><a href="#" id="clear-licenses" class="clear">clear</a></div>
+				</div>
 			</div>
 			
 			<div id="submit">Submit</div>
