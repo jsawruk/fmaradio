@@ -34,7 +34,14 @@
 				</div>
 				<h3><a href="#">Licenses</a></h3>
 				<div id="license-list">
-					<div class="row"><a href="#" id="clear-licenses" class="clear">clear</a></div>
+					<div class="row">
+						<div class="row">CC BY <input type="checkbox" /></div>
+						<div class="row">CC BY-SA <input type="checkbox" /></div>
+						<div class="row">CC BY-ND <input type="checkbox" /></div>
+						<div class="row">CC BY-NY <input type="checkbox" /></div>
+						<div class="row">CC BY-NC-SA <input type="checkbox" /></div>
+						<div class="row">CC BY-NC-SD <input type="checkbox" /></div>
+						<a href="#" id="clear-licenses" class="clear">clear</a></div>
 				</div>
 			</div>
 			
