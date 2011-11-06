@@ -20,7 +20,11 @@
 			</div><!-- /.topbar-inner -->
 		</div><!-- /.topbar -->
 		<div class="container-fluid">
-			<div class="sidebar">			
+			<div class="sidebar">		
+			
+			<div id="wfmu-logo">
+				<img src="images/wfmu.png" alt="WFMU" />
+			</div>
 				<div class="well">
 					<input type="text" name="artist" id="artist" placeholder="Artist Name" />
 					<div id="accordion">

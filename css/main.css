@@ -66,6 +66,9 @@ li.item {
 
 li.item .left {
 	float:left;
+	max-width:290px;
+	font-size:85%;
+	line-height:13px;
 }
 
 li.item .right {
@@ -93,4 +96,18 @@ div.jp-audio {
 #echo-nest {
 	float:right;
 	padding-top:3px;
+}
+
+a.download {
+	font-size:85%;
+	display:inline-block;
+	margin-top:5px;
+}
+
+#wfmu-logo {
+	margin-left:28px;
+}
+
+.hero-unit {
+	padding-top:10px;
 }
