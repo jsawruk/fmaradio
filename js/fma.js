@@ -7,9 +7,12 @@ fma.load = function() {
 	fma.makeAccordion();
 	//fma.initSoundManager();	
 
-	fma.licenses = ["http://creativecommons.org/licenses/by/3.0/us/","http://creativecommons.org/licenses/by-sa/3.0/us/",
-	                "http://creativecommons.org/licenses/by-nd/3.0/us/","http://creativecommons.org/licenses/by-nc/3.0/us/",
-	                "http://creativecommons.org/licenses/by-nc-sa/3.0/us/","http://creativecommons.org/licenses/by-nc-sd/3.0/us/",]
+	fma.licenses = ["http://freemusicarchive.org/FMA_License",
+	                "http://creativecommons.org/licenses/by/3.0/","http://creativecommons.org/licenses/by-sa/3.0/",
+	                "http://creativecommons.org/licenses/by-nd/3.0/","http://creativecommons.org/licenses/by-nc/3.0/",
+	                "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+	                "http://creativecommons.org/licenses/by-nc-sa/3.0/us/",
+	                "http://creativecommons.org/licenses/by-nc-nd/3.0/"]
 	
 	$("#jquery_jplayer_1").jPlayer({
 		  ready: function () {
@@ -19,6 +22,13 @@ fma.load = function() {
 		  },
 		  loadeddata: function() {
 			  $(".jp-title .title").text(fma.playInfo);
+		  },
+		  ended: function() {
+			  //console.log("ENDED");
+			  if(fma.trackIndex < $("#playlist li").length) {
+				  fma.trackIndex++;
+				  fma.play($("#playlist li")[fma.trackIndex]);
+			  }
 		  },
 		  swfPath: "/js"
 	});
@@ -39,31 +49,55 @@ fma.load = function() {
 		});
 	});
 	
+	$("#clear-licenses").click(function(event) {
+		event.preventDefault();
+		$("#license-list input[type=checkbox]").each(function(index, item){
+			$(item).removeAttr('checked');
+		});
+	});
+	
+	$("#all-licenses").click(function(event) {
+		event.preventDefault();
+		$("#license-list input[type=checkbox]").each(function(index, item){
+			$(item).attr('checked', 'checked');
+		});
+	});
+	
 	$("#submit").click(function(event){
 		fma.getPlaylist();
 	});
 	
+	$("#artist").keypress(function(e){
+		if(e.which == 13) {
+			fma.getPlaylist();
+	    }
+	});
+	
 	$("#playlist").delegate('#playlist li', 'click', function(event){
-		// Get the id and parse
-		var id = $(this).find(".meta").text();
-		var index = id.indexOf("track:");
-		var parsedId = id.substr(index + 6);
+		$(".jp-title .title").text("LOADING");
 		
-		console.log(parsedId);
+		fma.trackIndex = $(this).index();
+		
+		fma.play(this);
+		
+	});
+};
 
-		fma.getTrack(parsedId, function(data){
-			console.log(data);
-			var playUrl = data.dataset[0].track_url + "/download";
-			console.log(playUrl);
-			//fma.play(playUrl);
-			$("#jquery_jplayer_1").jPlayer("setMedia", {mp3: playUrl});
-			$("#jquery_jplayer_1").jPlayer("play");
-			
-			fma.playInfo = data.dataset[0].artist_name + " - " + data.dataset[0].track_title;
-			$(".jp-title .title").text(fma.playInfo);
-			$(".jp-duration").text(data.dataset[0].track_duration);
-		});
+fma.play = function(item) {
+	
+	// Get the id and parse
+	var id = $(item).find(".meta").text();
+	var index = id.indexOf("track:");
+	var parsedId = id.substr(index + 6);
+
+	fma.getTrack(parsedId, function(data){
+		var playUrl = data.dataset[0].track_url + "/download";
+		$("#jquery_jplayer_1").jPlayer("setMedia", {mp3: playUrl});
+		$("#jquery_jplayer_1").jPlayer("play");
 		
+		fma.playInfo = data.dataset[0].artist_name + " - " + data.dataset[0].track_title;
+		$(".jp-title .title").text(fma.playInfo);
+		$(".jp-duration").text(data.dataset[0].track_duration);
 	});
 };
 
@@ -83,8 +117,12 @@ fma.getTrack = function(id, callback) {
 
 fma.getPlaylist = function() {
 
+	$("#search-status").text("Searching...");
+	
 	var styleString = fma.getStyleSelected();
 	var moodString = fma.getMoodSelected();
+	
+	var licenses = fma.getLicenseSelected();
 	
 	var artist = $("#artist").val();
 	
@@ -98,18 +136,36 @@ fma.getPlaylist = function() {
 			type: 'artist-radio',
 			bucket: 'id:fma',
 			limit: 'true',
-			results: 50
+			results: 20
 		},
 		success: function(data) {
-			//console.log(data);
 			$("#playlist").empty();
-			$.each(data.response.songs, function(index, item){
-				//console.log(item);
-				var listItem = $('<li class="item"></li>');
-				listItem.append('<div class="left">' + item.artist_name + '/' + item.title + '</div>');
-				listItem.append('<div class="meta">' + item.tracks[0].foreign_id + '</div>');
-				$("#playlist").append(listItem);
-			});
+			$.each(data.response.songs, function(index, item) {
+				var id = item.tracks[0].foreign_id;
+				var index = id.indexOf("track:");
+				var parsedId = id.substr(index + 6);
+				
+				fma.getTrack(parsedId, function(data){
+					
+					var license = data.dataset[0].license_url;
+					var licenseTitle = data.dataset[0].license_title;
+					var licenseIndex = $.inArray(license, licenses);
+					//console.log(license);
+					//console.log(licenseTitle);
+					
+					if(licenseIndex != -1) {
+						// Only add matching licenses
+						var listItem = $('<li class="item"></li>');
+						listItem.append('<div class="left">' + item.artist_name + '/' + item.title + '</div>');
+						listItem.append('<div class="right"><img src="images/' + licenseTitle + '.png"/></div>');
+						listItem.append('<div class="meta">' + item.tracks[0].foreign_id + '</div>');
+						$("#playlist").append(listItem);
+					}
+				}); // end .getTrack callback
+				
+			}); // end $.each song
+			
+			$("#search-status").text("");
 		}
 	});
 };
@@ -124,11 +180,9 @@ fma.makeAccordion = function() {
 			type: 'style'
 		},
 		success: function(data) {
-			
 			$.each(data.response.terms, function(index, item){
 				$("#style-list").append('<div class="row"><label>' + item.name + '</label><input type="checkbox" /></div>');
 			});
-			
 			$("#accordion").accordion('resize');
 		}
 	});
@@ -140,11 +194,9 @@ fma.makeAccordion = function() {
 			type: 'mood'
 		},
 		success: function(data) {
-			console.log(data);
 			$.each(data.response.terms, function(index, item){
 				$("#mood-list").append('<div class="row"><label>' + item.name + '</label><input type="checkbox" /></div>');
 			});
-			
 			$("#accordion").accordion('resize');
 		}
 	});
@@ -173,11 +225,11 @@ fma.initSoundManager = function() {
 
 };
 
+/*
 fma.play = function(url) {
 	//var audioElement = document.getElementById('player');
 	//audioElement.setAttribute('src', url);
 	//audioElement.play();
-	/*
 	// Create SoundManager sound
 	soundManager.destroySound('mySound');
 	
@@ -219,8 +271,7 @@ fma.play = function(url) {
 		 onfinish: function() {
 		 }
 		}).play();
-		*/
-};
+}; */
 
 fma.getMoodSelected = function() {
 	var str = "";
@@ -245,9 +296,10 @@ fma.getStyleSelected = function() {
 }
 
 fma.getLicenseSelected = function() {
-	var name=[];
+	var name = [];
 	$("#license-list input[type=checkbox]:checked").each(function(index, item){
-		name.push(fma.license[$(item).index()]);
+		var licenseIndex = $('#license-list input[type=checkbox]').index(item);
+		name.push(fma.licenses[licenseIndex]);
 	});
 	return name;
 }

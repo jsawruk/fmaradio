@@ -34,14 +34,18 @@
 				</div>
 				<h3><a href="#">Licenses</a></h3>
 				<div id="license-list">
-					<div class="row">
-						<div class="row">CC BY <input type="checkbox" /></div>
-						<div class="row">CC BY-SA <input type="checkbox" /></div>
-						<div class="row">CC BY-ND <input type="checkbox" /></div>
-						<div class="row">CC BY-NY <input type="checkbox" /></div>
-						<div class="row">CC BY-NC-SA <input type="checkbox" /></div>
-						<div class="row">CC BY-NC-SD <input type="checkbox" /></div>
-						<a href="#" id="clear-licenses" class="clear">clear</a></div>
+					<div class="row">						
+						<a href="#" id="clear-licenses" class="clear">clear</a>
+						<a href="#" id="all-licenses" class="clear">all</a>
+					</div>
+					<div class="row"><label>FMA Limited</label> <input type="checkbox" checked="checked"/></div>
+					<div class="row"><label>CC BY</label> <input type="checkbox" checked="checked"/></div>
+					<div class="row"><label>CC BY-SA</label> <input type="checkbox" checked="checked"/></div>
+					<div class="row"><label>CC BY-ND</label> <input type="checkbox" checked="checked"/></div>
+					<div class="row"><label>CC BY-NC</label> <input type="checkbox" checked="checked"/></div>
+					<div class="row"><label>CC BY-NC-SA</label> <input type="checkbox" checked="checked"/></div>
+					<div class="row"><label>CC BY-NC-SA (US)</label> <input type="checkbox" checked="checked"/></div>
+					<div class="row"><label>CC BY-NC-ND</label> <input type="checkbox" checked="checked"/></div>
 				</div>
 			</div>
 			
@@ -94,6 +98,8 @@
 				</div>
 			</div>
 		</div>
+			
+				<div id="search-status"></div>
 			
 				<ul id="playlist">
 				</ul>

@@ -7,7 +7,7 @@ ul, li {
 }
 
 #accordion div {
-	max-height:100px;
+	max-height:150px;
 }
 
 #artist {
@@ -16,11 +16,16 @@ ul, li {
 
 #submit {
 	margin-top:20px;
+	width:100px;
 }
 
 a.clear {
 	font-size:80%;
 	color:#00c;
+}
+
+#all-licenses {
+	float:right;
 }
 
 .row  {
@@ -45,6 +50,27 @@ a.clear {
 	cursor:pointer;
 }
 
+li.item {
+	overflow:hidden;
+}
+
+li.item .left {
+	float:left;
+}
+
+li.item .right {
+	float:right;
+}
+
+.meta {
+	display:none;
+}
+
 div.jp-audio {
 	margin:auto;
+}
+
+#search-status {
+	margin-top:10px;
+	text-align:center;
 }
