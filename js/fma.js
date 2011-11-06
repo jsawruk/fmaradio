@@ -10,6 +10,12 @@ fma.load = function() {
 	$("#jquery_jplayer_1").jPlayer({
 		  ready: function () {
 		  },
+		  loadstart: function() {
+			  $(".jp-title .title").text("LOADING");
+		  },
+		  loadeddata: function() {
+			  $(".jp-title .title").text(fma.playInfo);
+		  },
 		  swfPath: "/js"
 	});
 	
@@ -48,7 +54,9 @@ fma.load = function() {
 			//fma.play(playUrl);
 			$("#jquery_jplayer_1").jPlayer("setMedia", {mp3: playUrl});
 			$("#jquery_jplayer_1").jPlayer("play");
-			$(".jp-title .title").text(data.dataset[0].artist_name + " - " + data.dataset[0].track_title);
+			
+			fma.playInfo = data.dataset[0].artist_name + " - " + data.dataset[0].track_title;
+			$(".jp-title .title").text(fma.playInfo);
 			$(".jp-duration").text(data.dataset[0].track_duration);
 		});
 		
