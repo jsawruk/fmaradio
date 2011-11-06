@@ -176,6 +176,12 @@ fma.searchByTerms = function(styles, moods, licenses) {
 fma.buildPlaylist = function(data, licenses) {
 	
 	$("#playlist").empty();
+	
+	if(data.response.songs.length == 0) {
+		$("#search-status").text("No results found");
+		return;
+	}
+	
 	$.each(data.response.songs, function(index, item) {
 		var id = item.tracks[0].foreign_id;
 		var index = id.indexOf("track:");
