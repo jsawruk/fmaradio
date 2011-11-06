@@ -23,7 +23,7 @@
 			<div class="sidebar">		
 			
 			<div id="wfmu-logo">
-				<img src="images/wfmu.png" alt="WFMU" />
+				<img src="images/FMAlogo_web_white.jpeg" alt="FMA" />
 			</div>
 				<div class="well">
 					<input type="text" name="artist" id="artist" placeholder="Artist Name" />

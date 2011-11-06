@@ -198,7 +198,7 @@ fma.buildPlaylist = function(data, licenses) {
 			if(licenseIndex != -1) {
 				// Only add matching licenses
 				var listItem = $('<li class="item"></li>');
-				listItem.append('<div class="left">' + item.artist_name + '/' + item.title + '<br /><a href="' + data.dataset[0].track_url + '/download" class="download">Download</a></div>');
+				listItem.append('<div class="left">' + item.artist_name + '/' + item.title + '<br /><a href="' + data.dataset[0].track_url + '" target="_blank" class="download">Info</a> | <a href="' + data.dataset[0].track_url + '/download" class="download">Download</a> </div>');
 				listItem.append('<div class="right"><img src="images/' + licenseTitle + '.png"/></div>');
 				listItem.append('<div class="meta">' + item.tracks[0].foreign_id + '</div>');
 				$("#playlist").append(listItem);
