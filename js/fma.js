@@ -7,7 +7,7 @@ fma.load = function() {
 	fma.makeAccordion();
 	fma.initSoundManager();
 	
-	fma.getTrack("14780");
+	//fma.getTrack("14780");
 	
 	
 	$("#submit").button();
@@ -29,9 +29,23 @@ fma.load = function() {
 	$("#submit").click(function(event){
 		fma.getPlaylist();
 	});
+	
+	$("#playlist").delegate('#playlist li', 'click', function(event){
+		// Get the id and parse
+		var id = $(this).find(".meta").text();
+		var index = id.indexOf("track:");
+		var parsedId = id.substr(index + 6);
+		
+		console.log(parsedId);
+
+		fma.getTrack(parsedId, function(data){
+			console.log(data);
+		});
+		
+	});
 };
 
-fma.getTrack = function(id) {
+fma.getTrack = function(id, callback) {
 	$.ajax({
 		url: "http://freemusicarchive.org/api/get/tracks.jsonp",
 		data: {
@@ -40,7 +54,7 @@ fma.getTrack = function(id) {
 		},
 		dataType: 'jsonp',
 		success: function(data) {
-			console.log(data);
+			callback(data);
 		}
 	});
 }
@@ -62,7 +76,15 @@ fma.getPlaylist = function() {
 			results: 50
 		},
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
+			$("#playlist").empty();
+			$.each(data.response.songs, function(index, item){
+				console.log(item);
+				var listItem = $('<li class="item"></li>');
+				listItem.append('<div class="left">' + item.artist_name + '/' + item.title + '</div>');
+				listItem.append('<div class="meta">' + item.tracks[0].foreign_id + '</div>');
+				$("#playlist").append(listItem);
+			});
 		}
 	});
 };
@@ -101,7 +123,7 @@ fma.makeAccordion = function() {
 			$("#accordion").accordion('resize');
 		}
 	});
-}
+};
 
 fma.initSoundManager = function() {
 	window.soundManager = new SoundManager(); // Flash expects window.soundManager.

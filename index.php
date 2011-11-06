@@ -40,7 +40,10 @@
 
 		<div class="content">
 			<div class="hero-unit">
-			CONTENT
+			
+				<ul id="playlist">
+				</ul>
+			
 			</div><!-- ./hero-unit -->
 		</div><!-- /.content -->
 	</div><!-- /.container-fluid -->

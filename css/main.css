@@ -2,6 +2,10 @@ body {
 	padding-top: 60px;
 }
 
+ul, li {
+	list-style:none;
+}
+
 #accordion div {
 	max-height:100px;
 }
@@ -31,4 +35,11 @@ a.clear {
 
 .row input {
 	float:right;
+}
+
+#playlist li {
+	height:40px;
+	padding:10px;
+	margin:5px;
+	background:#ccc;
 }
