@@ -138,6 +138,7 @@ fma.getPlaylist = function() {
 fma.searchByArtist = function(artist, styles, moods, licenses) {
 	$.ajax({
 		url: "http://developer.echonest.com/api/v4/playlist/static?bucket=tracks",
+		dataType: 'json',
 		data:{
 			api_key: fma.apiKey,
 			artist:	artist,
@@ -158,6 +159,7 @@ fma.searchByArtist = function(artist, styles, moods, licenses) {
 fma.searchByTerms = function(styles, moods, licenses) {
 	$.ajax({
 		url: "http://developer.echonest.com/api/v4/playlist/static?bucket=tracks",
+		dataType: 'json',
 		data:{
 			api_key: fma.apiKey,
 			mood: moods,
@@ -215,6 +217,7 @@ fma.makeAccordion = function() {
 
 	$.ajax({
 		url: 'http://developer.echonest.com/api/v4/artist/list_terms',
+		dataType: 'json',
 		data: {
 			api_key: fma.apiKey,
 			type: 'style'
@@ -229,6 +232,7 @@ fma.makeAccordion = function() {
 	
 	$.ajax({
 		url: 'http://developer.echonest.com/api/v4/artist/list_terms',
+		dataType: 'json',
 		data: {
 			api_key: fma.apiKey,
 			type: 'mood'
