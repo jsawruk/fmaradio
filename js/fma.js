@@ -103,7 +103,7 @@ fma.play = function(item) {
 
 fma.getTrack = function(id, callback) {
 	$.ajax({
-		url: "http://freemusicarchive.org/api/get/tracks.jsonp",
+		url: "//freemusicarchive.org/api/get/tracks.jsonp",
 		data: {
 			api_key: fma.fmaKey,
 			track_id: id
@@ -137,13 +137,11 @@ fma.getPlaylist = function() {
 
 fma.searchByArtist = function(artist, styles, moods, licenses) {
 	$.ajax({
-		url: "http://developer.echonest.com/api/v4/playlist/static?bucket=tracks",
+		url: "//developer.echonest.com/api/v4/playlist/static?bucket=tracks",
 		dataType: 'json',
 		data:{
 			api_key: fma.apiKey,
 			artist:	artist,
-			mood: moods,
-			style: styles,
 			type: 'artist-radio',
 			bucket: 'id:fma',
 			limit: 'true',
@@ -157,18 +155,23 @@ fma.searchByArtist = function(artist, styles, moods, licenses) {
 
 
 fma.searchByTerms = function(styles, moods, licenses) {
-	$.ajax({
-		url: "http://developer.echonest.com/api/v4/playlist/static?bucket=tracks",
+        var data_array = {
+                      api_key: fma.apiKey,
+		      type: 'artist-description',
+		      bucket: 'id:fma',
+		      limit: 'true',
+		      results: 20
+	};
+        if (moods) {
+          data_array['mood'] = moods;
+        }
+        if (styles) {
+          data_array['style'] = styles;
+        }
+        $.ajax({
+		url: "//developer.echonest.com/api/v4/playlist/static?bucket=tracks",
 		dataType: 'json',
-		data:{
-			api_key: fma.apiKey,
-			mood: moods,
-			style: styles,
-			type: 'artist-description',
-			bucket: 'id:fma',
-			limit: 'true',
-			results: 20
-		},
+		data: data_array,
 		success: function(data) {
 			fma.buildPlaylist(data, licenses);
 		}
@@ -216,7 +219,7 @@ fma.makeAccordion = function() {
 	$("#accordion").accordion();
 
 	$.ajax({
-		url: 'http://developer.echonest.com/api/v4/artist/list_terms',
+		url: '//developer.echonest.com/api/v4/artist/list_terms',
 		dataType: 'json',
 		data: {
 			api_key: fma.apiKey,
@@ -231,7 +234,7 @@ fma.makeAccordion = function() {
 	});
 	
 	$.ajax({
-		url: 'http://developer.echonest.com/api/v4/artist/list_terms',
+		url: '//developer.echonest.com/api/v4/artist/list_terms',
 		dataType: 'json',
 		data: {
 			api_key: fma.apiKey,
